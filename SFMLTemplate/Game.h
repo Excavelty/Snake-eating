@@ -20,7 +20,7 @@ private:
 	void initController();
 
 private:
-	const float divider = 50.f;
+	const float divider = 30.f;
 	double width;
 	double height;
 	float length;

@@ -4,7 +4,7 @@
 int main()
 {
     const double length = 600.;
-    Game game(length, length, "Template title");
+    Game game(length, length, "Snake game");
     game.run();
 
     return 0;

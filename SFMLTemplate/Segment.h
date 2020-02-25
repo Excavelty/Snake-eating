@@ -4,17 +4,19 @@
 class Segment
 {
 public:
-	Segment(float length, const sf::Vector2u& initPos, const sf::Color& color);
+	Segment(float length, const sf::Vector2i& initPos, const sf::Color& color);
 	~Segment();
-	void move(const sf::Vector2u& newPos);
-	void setPos(const sf::Vector2f& newPos);
+	void move(const sf::Vector2i& moveVector);
 	void draw(sf::RenderWindow& window);
-	const sf::Vector2u getPos();
-	const sf::Vector2u getPreviousPos();
+	void setPosition(const sf::Vector2i& newPos);
+	const sf::Vector2i getPos();
+	const sf::Vector2i getPreviousPos();
+	const float getLength();
 
 private:
-	sf::Vector2u pos;
-	sf::Vector2u previousPos;
+	const sf::Vector2f sizes;
+	sf::Vector2i pos;
+	sf::Vector2i previousPos;
 	sf::RectangleShape* square;
 };
 

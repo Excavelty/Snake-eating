@@ -8,11 +8,14 @@ class Player
 {
 public:
 	Player(std::vector<Segment* >* ptr);
+	const sf::Vector2i getHeadPos();
 	void updateLogic();
-	void move(unsigned x, unsigned y);
+	void move(int x, int y);
+	void reactToInput(int key);
+	void addSegment();
 
 private:
 	std::vector<Segment* >* vectPtr;
-	Direction dir = Direction::RIGHT;
+	Direction dir = Direction::NONE;
 };
 

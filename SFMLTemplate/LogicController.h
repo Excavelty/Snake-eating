@@ -9,6 +9,8 @@ public:
 	LogicController(Player* player, Fruit* fruit);
 	void updateLogic();
 
+	void reactToCollision();
+
 private:
 	Player* player;
 	Fruit* fruit;
