@@ -7,7 +7,7 @@ class LogicController
 {
 public:
 	LogicController(Player* player, Fruit* fruit);
-	void updateLogic();
+	bool updateLogic();
 
 	void reactToCollision();
 

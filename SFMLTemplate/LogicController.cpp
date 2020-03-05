@@ -6,10 +6,12 @@ LogicController::LogicController(Player* player, Fruit* fruit)
 	this->fruit = fruit;
 }
 
-void LogicController::updateLogic()
+bool LogicController::updateLogic()
 {
-	player->updateLogic();
+	bool returnValue = player->updateLogic();
 	reactToCollision();
+
+	return returnValue;
 }
 
 void LogicController::reactToCollision()

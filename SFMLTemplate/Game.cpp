@@ -25,12 +25,14 @@ void Game::run()
     initEnvironment();
     initController();
 
-    const int framerateLimit = 15;
+    const int framerateLimit = 24;
     window.setFramerateLimit(framerateLimit);
 
-    while (window.isOpen())
+    bool status = true;
+
+    while (window.isOpen() && status)
     {
-        logicController->updateLogic();
+        status = logicController->updateLogic();
         sf::Event event;
         while (window.pollEvent(event))
         {
@@ -50,19 +52,19 @@ void Game::run()
 void Game::initSegments()
 {
     const int limit = 7;
-    const sf::Color colors[2] = { sf::Color::Yellow, sf::Color::Cyan };
-    Segment* head = new Segment(length, sf::Vector2i{limit, 0}, sf::Color::Yellow);
+    Segment* head = new Segment{ length, sf::Vector2i{ limit, 0 } };
     segmentArray.push_back(head);
 
     for (int i = 1; i < limit; ++i)
     {
-        segmentArray.push_back(new Segment{ length, sf::Vector2i{limit - i, 0}, colors[i % 2] });
+        segmentArray.push_back(new Segment{ length, sf::Vector2i{limit - i, 0} });
     }
 }
 
 void Game::initEnvironment()
 {
-    player = new Player{&segmentArray};
+    int intDivider = static_cast<int> (divider);
+    player = new Player{ &segmentArray, sf::Vector2i{ intDivider, intDivider } };
     fruit = new Fruit{ length, static_cast<int> (divider), static_cast<int> (divider), sf::Color{222, 109, 87} };
 }
 

@@ -1,18 +1,21 @@
 #include "Player.h"
 
-Player::Player(std::vector<Segment* >* ptr) : vectPtr{ ptr }
+Player::Player(std::vector<Segment* >* ptr, const sf::Vector2i& limits) : vectPtr{ ptr }, mapLimits{ limits }
 {
 }
 
-void Player::updateLogic()
+bool Player::updateLogic()
 {
 	switch (dir)
 	{
-		case Direction::RIGHT: move(1, 0); break;
-		case Direction::LEFT: move(-1, 0); break;
-		case Direction::UP: move(0, -1); break;
-		case Direction::DOWN: move(0, 1); break;
+	case Direction::RIGHT: move(1, 0); break;
+	case Direction::LEFT: move(-1, 0); break;
+	case Direction::UP: move(0, -1); break;
+	case Direction::DOWN: move(0, 1); break;
 	}
+
+	reactIfBehindMap();
+	return reactToIntersection();
 }
 
 void Player::move(int x, int y)
@@ -41,10 +44,39 @@ void Player::reactToInput(int key)
 void Player::addSegment()
 {
 	unsigned size = vectPtr->size();
-	vectPtr->push_back(new Segment{ (*vectPtr)[size - 1]->getLength(), (*vectPtr)[size - 1]->getPreviousPos(), sf::Color::White } );
+	vectPtr->push_back(new Segment{ (*vectPtr)[size - 1]->getLength(), (*vectPtr)[size - 1]->getPreviousPos() } );
+}
+
+void Player::reactIfBehindMap()
+{
+	const sf::Vector2i pos = getHeadPos();
+
+	if (pos.x > mapLimits.x)
+		(*vectPtr)[0]->setPosition(sf::Vector2i{ 0, pos.y });
+	else if (pos.x < 0)
+		(*vectPtr)[0]->setPosition(sf::Vector2i{ mapLimits.x, pos.y });
+	else if (pos.y > mapLimits.y)
+		(*vectPtr)[0]->setPosition(sf::Vector2i{ pos.x, 0 });
+	else if (pos.y < 0)
+		(*vectPtr)[0]->setPosition(sf::Vector2i{ pos.x, mapLimits.x });
 }
 
 const sf::Vector2i Player::getHeadPos()
 {
 	return (*vectPtr)[0]->getPos();
+}
+
+bool Player::reactToIntersection()
+{
+	const int SIZE = vectPtr->size();
+	const sf::Vector2i pos = getHeadPos();
+
+	for (int i = 1; i < SIZE; ++i)
+	{
+		const sf::Vector2i comparePos = (*vectPtr)[i]->getPos();
+		if (pos == comparePos)
+			return true;
+	}
+
+	return false;
 }

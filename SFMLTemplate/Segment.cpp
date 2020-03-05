@@ -1,11 +1,14 @@
 #include "Segment.h"
 #include <iostream>
 
-Segment::Segment(float length, const sf::Vector2i& initPos, const sf::Color& color) : sizes{length, length}, pos{ initPos }
+int Segment::counter{ 0 };
+
+Segment::Segment(float length, const sf::Vector2i& initPos) : sizes{length, length}, pos{ initPos }
 {
 	square = new sf::RectangleShape{ sf::Vector2f{length, length} };
 	setPosition(pos);
-	square->setFillColor(color);
+	square->setFillColor(colors[counter % 2]);
+	++counter;
 }
 
 Segment::~Segment()
